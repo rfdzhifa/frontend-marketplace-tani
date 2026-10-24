@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors: utilities like bg-primary-600, text-ink, border-border */
+  --color-primary-50: #f1f7f2;
+  --color-primary-100: #e1eee3;
+  --color-primary-600: #316339;
+  --color-primary-700: #285230;
+  --color-primary-800: #1f4025;
+
+  --color-ink: #22292f;
+  --color-ink-soft: #4b545b;
+  --color-ink-muted: #6b747b;
+  --color-border: #e4e7ea;
+  --color-surface: #ffffff;
+  --color-canvas: #f6f7f8;
+  --color-media-bg: #eeeff1;
+
+  --color-danger-600: #d92d20;
+  --color-danger-50: #fde9e7;
+  --color-warning-600: #b7791f;
+  --color-warning-50: #fef3c7;
+  --color-info-600: #1d4ed8;
+  --color-info-50: #dbeafe;
+  --color-star: #f5b400;
+
+  /* Order status colors: used only inside StatusBadge */
+  --color-status-pending-bg: #fef3c7;
+  --color-status-pending-fg: #92600a;
+  --color-status-paid-bg: #e1eee3;
+  --color-status-paid-fg: #2a6b35;
+  --color-status-processing-bg: #dbeafe;
+  --color-status-processing-fg: #1d4ed8;
+  --color-status-shipped-bg: #e8e4fb;
+  --color-status-shipped-fg: #5b3fc4;
+  --color-status-completed-bg: #316339;
+  --color-status-completed-fg: #ffffff;
+  --color-status-cancelled-bg: #fde9e7;
+  --color-status-cancelled-fg: #b42318;
+
+  /* Font */
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Type scale: utilities like text-h2, text-body-sm */
+  --text-display: 56px;
+  --text-display--line-height: 60px;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: 40px;
+  --text-h1--line-height: 46px;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: 28px;
+  --text-h2--line-height: 36px;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: 22px;
+  --text-h3--line-height: 30px;
+  --text-h4: 18px;
+  --text-h4--line-height: 26px;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body: 16px;
+  --text-body--line-height: 24px;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+
+  /* Radius: rounded-sm, rounded-md, rounded-lg, rounded-xl; pill = rounded-full */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Shadows: shadow-hover, shadow-overlay */
+  --shadow-hover: 0 6px 20px rgba(34, 41, 47, 0.08);
+  --shadow-overlay: 0 12px 32px rgba(34, 41, 47, 0.14);
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-body text-ink font-sans antialiased;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
