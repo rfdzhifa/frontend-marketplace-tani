@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Link, Navigate, Route, Routes } from "react-router";
 import { LogOut, Sprout, User } from "lucide-react";
 import { AuthLayout } from "../components/templates/AuthLayout";
+import { MainLayout } from "../components/templates/MainLayout";
 import { Button } from "../components/atoms/Button";
 import { Spinner } from "../components/atoms/Spinner";
 import { useAuth } from "../features/auth";
@@ -13,119 +14,13 @@ import { ROUTES } from "../constants/routes";
 const LoginPage = lazy(() => import("../features/auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("../features/auth/pages/RegisterPage"));
 const ProfilePage = lazy(() => import("../features/auth/pages/ProfilePage"));
+const MarketplacePage = lazy(() => import("../features/marketplace/pages/MarketplacePage"));
+const ProductDetailPage = lazy(() => import("../features/marketplace/pages/ProductDetailPage"));
 
 function PageFallback() {
   return (
     <div className="flex min-h-[240px] items-center justify-center">
       <Spinner className="text-primary-600 h-5 w-5" />
-    </div>
-  );
-}
-
-function TopNavigation() {
-  const { isAuthenticated, user, logout } = useAuth();
-
-  return (
-    <header className="border-border bg-surface border-b">
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6">
-        <Link
-          to={ROUTES.HOME}
-          className="text-ink focus-visible:ring-primary-600 inline-flex items-center gap-2.5 rounded-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-        >
-          <span className="bg-primary-600 text-surface flex h-9 w-9 items-center justify-center rounded-sm">
-            <Sprout className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <span className="text-h4 text-ink font-semibold">PasarTani</span>
-        </Link>
-
-        <nav className="flex items-center gap-3">
-          {isAuthenticated ? (
-            <>
-              {user?.role === ROLES.SELLER && (
-                <Link
-                  to={ROUTES.SELLER_DASHBOARD}
-                  className="text-body-sm text-ink-soft hover:text-ink font-medium"
-                >
-                  Dashboard Petani
-                </Link>
-              )}
-              <Link
-                to={ROUTES.PROFILE}
-                className="border-border bg-surface text-body-sm text-ink hover:bg-canvas inline-flex items-center gap-1.5 rounded-sm border px-3 py-2 font-medium"
-              >
-                <User className="text-primary-600 h-4 w-4" aria-hidden="true" />
-                <span>{user?.name || "Profil"}</span>
-              </Link>
-              <Button variant="ghost" size="sm" onClick={logout}>
-                <LogOut className="h-4 w-4" aria-hidden="true" />
-                Keluar
-              </Button>
-            </>
-          ) : (
-            <>
-              <Link to={ROUTES.LOGIN}>
-                <Button variant="secondary" size="sm">
-                  Masuk
-                </Button>
-              </Link>
-              <Link to={ROUTES.REGISTER}>
-                <Button variant="primary" size="sm">
-                  Daftar
-                </Button>
-              </Link>
-            </>
-          )}
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function MarketplaceHomePage() {
-  const { isAuthenticated, user } = useAuth();
-
-  return (
-    <div className="bg-surface min-h-screen">
-      <TopNavigation />
-      <main className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6 sm:py-16">
-        <div className="border-border bg-canvas mx-auto max-w-2xl rounded-lg border p-8 text-center">
-          <span className="bg-primary-100 text-caption text-primary-800 inline-flex items-center gap-2 rounded-full px-3.5 py-1 font-semibold">
-            Marketplace Produk Petani Lokal
-          </span>
-          <h1 className="text-h2 text-ink mt-4 font-semibold">
-            Hasil Panen Segar Langsung dari Petani Lokal
-          </h1>
-          <p className="text-body text-ink-soft mt-2">
-            {isAuthenticated
-              ? `Selamat datang kembali, ${user?.name} (${ROLE_LABELS[user?.role] || user?.role}).`
-              : "Hubungkan kebutuhan pangan harian Anda langsung dengan petani lokal terpercaya."}
-          </p>
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {isAuthenticated ? (
-              <>
-                <Link to={ROUTES.PROFILE}>
-                  <Button variant="primary">Kelola Profil Akun</Button>
-                </Link>
-                {user?.role === ROLES.SELLER && (
-                  <Link to={ROUTES.SELLER_DASHBOARD}>
-                    <Button variant="secondary">Buka Dashboard Petani</Button>
-                  </Link>
-                )}
-              </>
-            ) : (
-              <>
-                <Link to={ROUTES.REGISTER}>
-                  <Button variant="primary">Mulai Daftar</Button>
-                </Link>
-                <Link to={ROUTES.LOGIN}>
-                  <Button variant="secondary">Masuk ke Akun</Button>
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </main>
     </div>
   );
 }
@@ -220,12 +115,13 @@ export function AppRouter() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
-        <Route path={ROUTES.HOME} element={<MarketplaceHomePage />} />
-        <Route
-          path={ROUTES.MARKETPLACE}
-          element={<Navigate to={ROUTES.HOME} replace />}
-        />
+        {/* Public Marketplace Routes */}
+        <Route element={<MainLayout />}>
+          <Route path={ROUTES.HOME} element={<MarketplacePage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
+        </Route>
 
+        {/* Auth Routes (Guest Only) */}
         <Route element={<GuestRoute />}>
           <Route element={<AuthLayout />}>
             <Route path={ROUTES.LOGIN} element={<LoginPage />} />
@@ -233,10 +129,12 @@ export function AppRouter() {
           </Route>
         </Route>
 
+        {/* Protected Routes (Authenticated Users) */}
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
         </Route>
 
+        {/* Seller Routes */}
         <Route element={<ProtectedRoute role={ROLES.SELLER} />}>
           <Route
             path={ROUTES.SELLER_DASHBOARD}
@@ -244,6 +142,13 @@ export function AppRouter() {
           />
         </Route>
 
+        {/* Redirects */}
+        <Route
+          path={ROUTES.MARKETPLACE}
+          element={<Navigate to={ROUTES.HOME} replace />}
+        />
+
+        {/* 404 */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
