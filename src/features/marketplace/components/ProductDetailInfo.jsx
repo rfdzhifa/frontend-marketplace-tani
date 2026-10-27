@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { MapPin, ShoppingCart } from "lucide-react";
-import { toast } from "sonner";
 import { Badge } from "../../../components/atoms/Badge";
 import { Button } from "../../../components/atoms/Button";
 import { RatingStars } from "../../../components/molecules/RatingStars";
 import { PriceTag } from "../../../components/molecules/PriceTag";
-import { QuantityStepper } from "./QuantityStepper";
+import { QuantityStepper } from "../../../components/molecules/QuantityStepper";
 import { MARKETPLACE_CONFIG } from "../config";
 import { ROLES } from "../../../constants/roles";
 import { getFarmerProfilePath } from "../../../constants/routes";
@@ -16,6 +15,7 @@ export function ProductDetailInfo({
   isAuthenticated = false,
   userRole = null,
   onAddToCart,
+  isAddingToCart = false,
 }) {
   const [quantity, setQuantity] = useState(1);
   const isOutOfStock = !product.isAvailable;
@@ -24,9 +24,6 @@ export function ProductDetailInfo({
   const handleAddToCart = () => {
     if (onAddToCart) {
       onAddToCart({ productId: product.id, quantity });
-    } else {
-      // Temporary fallback until Cart module is implemented
-      toast.info("Fitur keranjang segera hadir");
     }
   };
 
@@ -142,7 +139,8 @@ export function ProductDetailInfo({
             variant="primary"
             size="lg"
             onClick={handleAddToCart}
-            disabled={buttonState.disabled}
+            disabled={buttonState.disabled || isAddingToCart}
+            isLoading={isAddingToCart}
             className="w-full sm:w-auto"
           >
             <ShoppingCart className="h-5 w-5" aria-hidden="true" />

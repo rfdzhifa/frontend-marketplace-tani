@@ -26,6 +26,7 @@ const FarmerProfilePage = lazy(
 const FarmProfilePage = lazy(
   () => import("../features/farmer-profile/pages/FarmProfilePage"),
 );
+const CartPage = lazy(() => import("../features/cart/pages/CartPage"));
 
 function PageFallback() {
   return (
@@ -133,6 +134,11 @@ export function AppRouter() {
           <Route path={ROUTES.HOME} element={<MarketplacePage />} />
           <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
           <Route path={ROUTES.FARMER_PROFILE} element={<FarmerProfilePage />} />
+
+          {/* Buyer Routes */}
+          <Route element={<ProtectedRoute role={ROLES.BUYER} />}>
+            <Route path={ROUTES.CART} element={<CartPage />} />
+          </Route>
         </Route>
 
         {/* Auth Routes (Guest Only) */}

@@ -3,6 +3,7 @@ export const ROUTES = {
   MARKETPLACE: "/marketplace",
   PRODUCT_DETAIL: "/products/:id",
   FARMER_PROFILE: "/farmers/:id",
+  CART: "/cart",
   LOGIN: "/login",
   REGISTER: "/register",
   PROFILE: "/profile",

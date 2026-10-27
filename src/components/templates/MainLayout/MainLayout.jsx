@@ -2,6 +2,7 @@ import { Link, Outlet } from 'react-router';
 import { LogOut, Sprout, User } from 'lucide-react';
 import { Button } from '../../atoms/Button';
 import { useAuth } from '../../../features/auth';
+import { CartNavLink } from '../../../features/cart';
 import { ROLES } from '../../../constants/roles';
 import { ROUTES } from '../../../constants/routes';
 
@@ -26,6 +27,7 @@ export function MainLayout() {
           <nav className="flex items-center gap-3">
             {isAuthenticated ? (
               <>
+                {user?.role === ROLES.BUYER && <CartNavLink />}
                 {user?.role === ROLES.SELLER && (
                   <Link
                     to={ROUTES.SELLER_DASHBOARD}
