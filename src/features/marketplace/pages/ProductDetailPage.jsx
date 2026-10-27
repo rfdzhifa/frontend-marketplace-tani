@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 import { useProduct } from '../hooks/useProduct';
 import { useAuth } from '../../auth';
+import { useAddToCart } from '../../cart';
 import { ImageWithFallback } from '../../../components/atoms/ImageWithFallback';
 import { Skeleton } from '../../../components/atoms/Skeleton';
 import { Alert } from '../../../components/atoms/Alert';
@@ -13,6 +14,7 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
+  const addToCartMutation = useAddToCart();
 
   const { data, isLoading, isError, error, refetch } = useProduct(id);
 
@@ -25,9 +27,7 @@ export default function ProductDetailPage() {
       return;
     }
 
-    // Temporary: Cart module not yet implemented
-    // TODO: Connect to actual cart functionality when Cart module is ready
-    console.log('Add to cart:', { productId, quantity });
+    addToCartMutation.mutate({ productId, quantity });
   };
 
   const handleBackToCatalog = () => {
@@ -125,6 +125,7 @@ export default function ProductDetailPage() {
           isAuthenticated={isAuthenticated}
           userRole={user?.role}
           onAddToCart={handleAddToCart}
+          isAddingToCart={addToCartMutation.isPending}
         />
       </div>
     </div>
