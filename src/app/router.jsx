@@ -14,8 +14,18 @@ import { ROUTES } from "../constants/routes";
 const LoginPage = lazy(() => import("../features/auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("../features/auth/pages/RegisterPage"));
 const ProfilePage = lazy(() => import("../features/auth/pages/ProfilePage"));
-const MarketplacePage = lazy(() => import("../features/marketplace/pages/MarketplacePage"));
-const ProductDetailPage = lazy(() => import("../features/marketplace/pages/ProductDetailPage"));
+const MarketplacePage = lazy(
+  () => import("../features/marketplace/pages/MarketplacePage"),
+);
+const ProductDetailPage = lazy(
+  () => import("../features/marketplace/pages/ProductDetailPage"),
+);
+const FarmerProfilePage = lazy(
+  () => import("../features/farmer-profile/pages/FarmerProfilePage"),
+);
+const FarmProfilePage = lazy(
+  () => import("../features/farmer-profile/pages/FarmProfilePage"),
+);
 
 function PageFallback() {
   return (
@@ -76,7 +86,10 @@ function SellerDashboardPlaceholderPage() {
             . Ringkasan penjualan dan manajemen produk akan ditampilkan di
             halaman ini setelah modul Seller Dashboard diintegrasikan.
           </p>
-          <div className="mt-6">
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to={ROUTES.SELLER_FARM_PROFILE}>
+              <Button variant="primary">Kelola Profil Petani</Button>
+            </Link>
             <Link to={ROUTES.PROFILE}>
               <Button variant="secondary">Edit Profil Akun</Button>
             </Link>
@@ -118,7 +131,8 @@ export function AppRouter() {
         {/* Public Marketplace Routes */}
         <Route element={<MainLayout />}>
           <Route path={ROUTES.HOME} element={<MarketplacePage />} />
-          <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
+          <Route path={ROUTES.FARMER_PROFILE} element={<FarmerProfilePage />} />
         </Route>
 
         {/* Auth Routes (Guest Only) */}
@@ -139,6 +153,10 @@ export function AppRouter() {
           <Route
             path={ROUTES.SELLER_DASHBOARD}
             element={<SellerDashboardPlaceholderPage />}
+          />
+          <Route
+            path={ROUTES.SELLER_FARM_PROFILE}
+            element={<FarmProfilePage />}
           />
         </Route>
 

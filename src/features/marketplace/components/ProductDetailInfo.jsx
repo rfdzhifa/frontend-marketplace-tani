@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { MapPin, ShoppingCart } from 'lucide-react';
-import { toast } from 'sonner';
-import { Badge } from '../../../components/atoms/Badge';
-import { Button } from '../../../components/atoms/Button';
-import { RatingStars } from '../../../components/molecules/RatingStars';
-import { PriceTag } from '../../../components/molecules/PriceTag';
-import { QuantityStepper } from './QuantityStepper';
-import { MARKETPLACE_CONFIG } from '../config';
-import { ROLES } from '../../../constants/roles';
+import { useState } from "react";
+import { Link } from "react-router";
+import { MapPin, ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
+import { Badge } from "../../../components/atoms/Badge";
+import { Button } from "../../../components/atoms/Button";
+import { RatingStars } from "../../../components/molecules/RatingStars";
+import { PriceTag } from "../../../components/molecules/PriceTag";
+import { QuantityStepper } from "./QuantityStepper";
+import { MARKETPLACE_CONFIG } from "../config";
+import { ROLES } from "../../../constants/roles";
+import { getFarmerProfilePath } from "../../../constants/routes";
 
 export function ProductDetailInfo({
   product,
@@ -24,7 +26,7 @@ export function ProductDetailInfo({
       onAddToCart({ productId: product.id, quantity });
     } else {
       // Temporary fallback until Cart module is implemented
-      toast.info('Fitur keranjang segera hadir');
+      toast.info("Fitur keranjang segera hadir");
     }
   };
 
@@ -32,7 +34,7 @@ export function ProductDetailInfo({
     if (isOutOfStock) {
       return {
         disabled: true,
-        label: 'Stok habis',
+        label: "Stok habis",
         helpText: null,
       };
     }
@@ -40,22 +42,22 @@ export function ProductDetailInfo({
     if (!isAuthenticated) {
       return {
         disabled: false,
-        label: 'Tambah ke keranjang',
-        helpText: 'Anda akan diarahkan ke halaman login',
+        label: "Tambah ke keranjang",
+        helpText: "Anda akan diarahkan ke halaman login",
       };
     }
 
     if (isSeller) {
       return {
         disabled: true,
-        label: 'Tidak tersedia',
-        helpText: 'Hanya akun pembeli yang dapat membeli produk',
+        label: "Tidak tersedia",
+        helpText: "Hanya akun pembeli yang dapat membeli produk",
       };
     }
 
     return {
       disabled: false,
-      label: 'Tambah ke keranjang',
+      label: "Tambah ke keranjang",
       helpText: null,
     };
   };
@@ -67,7 +69,7 @@ export function ProductDetailInfo({
       {/* Title and Stock Status */}
       <div>
         <div className="flex items-start justify-between gap-4">
-          <h1 className="text-h3 font-semibold text-ink lg:text-h2">
+          <h1 className="text-h3 text-ink lg:text-h2 font-semibold">
             {product.name}
           </h1>
           {isOutOfStock && <Badge tone="danger">Stok habis</Badge>}
@@ -76,16 +78,16 @@ export function ProductDetailInfo({
         {/* Seller Info */}
         <div className="mt-3 flex items-center gap-1.5">
           <MapPin
-            className="h-4 w-4 shrink-0 text-ink-muted"
+            className="text-ink-muted h-4 w-4 shrink-0"
             aria-hidden="true"
           />
           {MARKETPLACE_CONFIG.FARMER_PROFILE_ENABLED ? (
-            <a
-              href={`/farmers/${product.seller.id}`}
-              className="text-body-sm text-ink-soft hover:text-primary-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:rounded-sm"
+            <Link
+              to={getFarmerProfilePath(product.seller.id)}
+              className="text-body-sm text-ink-soft hover:text-primary-600 focus-visible:ring-primary-600 hover:underline focus-visible:rounded-sm focus-visible:ring-2 focus-visible:outline-none"
             >
               {product.seller.name}
-            </a>
+            </Link>
           ) : (
             <span className="text-body-sm text-ink-soft">
               {product.seller.name}
@@ -107,10 +109,10 @@ export function ProductDetailInfo({
       </div>
 
       {/* Stock Info */}
-      <div className="rounded-md border border-border bg-canvas p-4">
+      <div className="border-border bg-canvas rounded-md border p-4">
         <p className="text-body-sm text-ink-soft">
-          Stok tersedia:{' '}
-          <span className="font-semibold text-ink">
+          Stok tersedia:{" "}
+          <span className="text-ink font-semibold">
             {product.stock} {product.unit}
           </span>
         </p>
@@ -120,7 +122,10 @@ export function ProductDetailInfo({
       {!isOutOfStock && (
         <div className="space-y-3">
           <div>
-            <label htmlFor="quantity" className="text-body-sm font-medium text-ink-soft mb-2 block">
+            <label
+              htmlFor="quantity"
+              className="text-body-sm text-ink-soft mb-2 block font-medium"
+            >
               Jumlah
             </label>
             <QuantityStepper
@@ -145,15 +150,17 @@ export function ProductDetailInfo({
           </Button>
 
           {buttonState.helpText && (
-            <p className="text-caption text-ink-muted">{buttonState.helpText}</p>
+            <p className="text-caption text-ink-muted">
+              {buttonState.helpText}
+            </p>
           )}
         </div>
       )}
 
       {/* Description */}
       {product.description && (
-        <div className="border-t border-border pt-6">
-          <h2 className="text-h4 font-semibold text-ink mb-3">Deskripsi</h2>
+        <div className="border-border border-t pt-6">
+          <h2 className="text-h4 text-ink mb-3 font-semibold">Deskripsi</h2>
           <p className="text-body text-ink-soft whitespace-pre-line">
             {product.description}
           </p>
@@ -161,8 +168,8 @@ export function ProductDetailInfo({
       )}
 
       {/* Reviews Placeholder */}
-      <div className="border-t border-border pt-6">
-        <h2 className="text-h4 font-semibold text-ink mb-3">Ulasan</h2>
+      <div className="border-border border-t pt-6">
+        <h2 className="text-h4 text-ink mb-3 font-semibold">Ulasan</h2>
         {product.reviews && product.reviews.length > 0 ? (
           <div>{/* Reviews list will be implemented in Review module */}</div>
         ) : (
