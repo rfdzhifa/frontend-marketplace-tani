@@ -1,6 +1,6 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '../../../components/atoms/Button';
-import { cn } from '../../../utils/cn';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "../../atoms/Button";
+import { cn } from "../../../utils/cn";
 
 export function Pagination({ page, totalPages, onChange, className }) {
   if (totalPages <= 1) {
@@ -13,8 +13,8 @@ export function Pagination({ page, totalPages, onChange, className }) {
   return (
     <nav
       role="navigation"
-      aria-label="Navigasi halaman produk"
-      className={cn('flex items-center justify-center gap-2', className)}
+      aria-label="Navigasi halaman"
+      className={cn("flex items-center justify-center gap-2", className)}
     >
       <Button
         variant="secondary"
@@ -28,7 +28,7 @@ export function Pagination({ page, totalPages, onChange, className }) {
       </Button>
 
       <span className="text-body-sm text-ink-soft px-2">
-        Halaman <span className="font-semibold text-ink">{page}</span> dari{' '}
+        Halaman <span className="text-ink font-semibold">{page}</span> dari{" "}
         {totalPages}
       </span>
 

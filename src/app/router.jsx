@@ -1,14 +1,14 @@
 import { lazy, Suspense } from "react";
 import { Link, Navigate, Route, Routes } from "react-router";
-import { LogOut, Sprout, User } from "lucide-react";
 import { AuthLayout } from "../components/templates/AuthLayout";
 import { MainLayout } from "../components/templates/MainLayout";
+import { SellerLayout } from "../components/templates/SellerLayout";
 import { Button } from "../components/atoms/Button";
 import { Spinner } from "../components/atoms/Spinner";
 import { useAuth } from "../features/auth";
 import { GuestRoute } from "./guards/GuestRoute";
 import { ProtectedRoute } from "./guards/ProtectedRoute";
-import { getRoleHomePath, ROLE_LABELS, ROLES } from "../constants/roles";
+import { getRoleHomePath, ROLES } from "../constants/roles";
 import { ROUTES } from "../constants/routes";
 
 const LoginPage = lazy(() => import("../features/auth/pages/LoginPage"));
@@ -23,80 +23,26 @@ const ProductDetailPage = lazy(
 const FarmerProfilePage = lazy(
   () => import("../features/farmer-profile/pages/FarmerProfilePage"),
 );
+const CartPage = lazy(() => import("../features/cart/pages/CartPage"));
+
+// Seller Pages
+const SellerOverviewPage = lazy(
+  () => import("../features/seller-dashboard/pages/SellerOverviewPage"),
+);
+const SellerProductsPage = lazy(
+  () => import("../features/seller-product/pages/SellerProductsPage"),
+);
+const SellerProductFormPage = lazy(
+  () => import("../features/seller-product/pages/SellerProductFormPage"),
+);
 const FarmProfilePage = lazy(
   () => import("../features/farmer-profile/pages/FarmProfilePage"),
 );
-const CartPage = lazy(() => import("../features/cart/pages/CartPage"));
 
 function PageFallback() {
   return (
     <div className="flex min-h-[240px] items-center justify-center">
       <Spinner className="text-primary-600 h-5 w-5" />
-    </div>
-  );
-}
-
-function SellerDashboardPlaceholderPage() {
-  const { user, logout } = useAuth();
-
-  return (
-    <div className="bg-canvas min-h-screen">
-      <header className="border-border bg-surface border-b">
-        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-3">
-            <Link
-              to={ROUTES.SELLER_DASHBOARD}
-              className="text-ink inline-flex items-center gap-2.5"
-            >
-              <span className="bg-primary-600 text-surface flex h-9 w-9 items-center justify-center rounded-sm">
-                <Sprout className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="text-h4 text-ink font-semibold">PasarTani</span>
-            </Link>
-            <span className="bg-primary-100 text-caption text-primary-800 rounded-full px-3 py-1 font-semibold">
-              Dashboard Petani
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              to={ROUTES.PROFILE}
-              className="border-border bg-surface text-body-sm text-ink hover:bg-canvas inline-flex items-center gap-1.5 rounded-sm border px-3 py-2 font-medium"
-            >
-              <User className="text-primary-600 h-4 w-4" aria-hidden="true" />
-              <span>{user?.name || "Profil"}</span>
-            </Link>
-            <Button variant="secondary" size="sm" onClick={logout}>
-              <LogOut className="h-4 w-4" aria-hidden="true" />
-              Keluar
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6">
-        <div className="border-border bg-surface rounded-md border p-6 sm:p-8">
-          <h1 className="text-h2 text-ink font-semibold">
-            Halo, {user?.name || "Petani"}
-          </h1>
-          <p className="text-body-sm text-ink-soft mt-1">
-            Anda berhasil masuk sebagai{" "}
-            <span className="text-ink font-semibold">
-              {ROLE_LABELS[user?.role] || ROLES.SELLER}
-            </span>
-            . Ringkasan penjualan dan manajemen produk akan ditampilkan di
-            halaman ini setelah modul Seller Dashboard diintegrasikan.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to={ROUTES.SELLER_FARM_PROFILE}>
-              <Button variant="primary">Kelola Profil Petani</Button>
-            </Link>
-            <Link to={ROUTES.PROFILE}>
-              <Button variant="secondary">Edit Profil Akun</Button>
-            </Link>
-          </div>
-        </div>
-      </main>
     </div>
   );
 }
@@ -156,14 +102,28 @@ export function AppRouter() {
 
         {/* Seller Routes */}
         <Route element={<ProtectedRoute role={ROLES.SELLER} />}>
-          <Route
-            path={ROUTES.SELLER_DASHBOARD}
-            element={<SellerDashboardPlaceholderPage />}
-          />
-          <Route
-            path={ROUTES.SELLER_FARM_PROFILE}
-            element={<FarmProfilePage />}
-          />
+          <Route element={<SellerLayout />}>
+            <Route
+              path={ROUTES.SELLER_DASHBOARD}
+              element={<SellerOverviewPage />}
+            />
+            <Route
+              path={ROUTES.SELLER_PRODUCTS}
+              element={<SellerProductsPage />}
+            />
+            <Route
+              path={ROUTES.SELLER_PRODUCT_NEW}
+              element={<SellerProductFormPage />}
+            />
+            <Route
+              path={ROUTES.SELLER_PRODUCT_EDIT}
+              element={<SellerProductFormPage />}
+            />
+            <Route
+              path={ROUTES.SELLER_FARM_PROFILE}
+              element={<FarmProfilePage />}
+            />
+          </Route>
         </Route>
 
         {/* Redirects */}
