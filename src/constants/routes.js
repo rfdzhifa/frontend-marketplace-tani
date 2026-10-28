@@ -8,6 +8,9 @@ export const ROUTES = {
   REGISTER: "/register",
   PROFILE: "/profile",
   SELLER_DASHBOARD: "/seller/dashboard",
+  SELLER_PRODUCTS: "/seller/products",
+  SELLER_PRODUCT_NEW: "/seller/products/new",
+  SELLER_PRODUCT_EDIT: "/seller/products/:productId/edit",
   SELLER_FARM_PROFILE: "/seller/farm-profile",
   FORBIDDEN: "/forbidden",
 };
@@ -28,4 +31,13 @@ export function getProductDetailPath(productId) {
  */
 export function getFarmerProfilePath(farmerId) {
   return `/farmers/${farmerId}`;
+}
+
+/**
+ * Helper to build seller product edit route
+ * @param {number|string} productId
+ * @returns {string}
+ */
+export function getSellerProductEditPath(productId) {
+  return `/seller/products/${productId}/edit`;
 }
