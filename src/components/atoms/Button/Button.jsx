@@ -10,19 +10,26 @@ const buttonVariants = cva(
       variant: {
         primary: "bg-primary-600 text-white hover:bg-primary-700",
         secondary: "border border-border bg-surface text-ink hover:bg-canvas",
-        charcoal: "rounded-full bg-ink text-white hover:bg-ink-soft",
+        outline: "border border-border bg-surface text-ink hover:bg-canvas",
+        charcoal: "bg-ink text-white hover:bg-ink-soft",
         ghost: "bg-transparent text-ink-soft hover:bg-canvas hover:text-ink",
         danger: "bg-danger-600 text-white hover:opacity-90",
       },
       size: {
-        sm: "h-9 rounded-sm px-3 text-body-sm",
-        md: "h-11 rounded-sm px-4 text-body-sm",
-        lg: "h-[52px] rounded-sm px-6 text-body",
+        sm: "h-9 px-3 text-body-sm",
+        md: "h-11 px-4 text-body-sm",
+        lg: "h-[52px] px-6 text-body",
+      },
+      shape: {
+        pill: "rounded-full",
+        rounded: "rounded-sm",
+        none: "",
       },
     },
     defaultVariants: {
       variant: "primary",
       size: "md",
+      shape: "pill",
     },
   },
 );
@@ -32,6 +39,7 @@ export const Button = forwardRef(function Button(
     className,
     variant = "primary",
     size,
+    shape = "pill",
     isLoading = false,
     disabled = false,
     type = "button",
@@ -49,7 +57,7 @@ export const Button = forwardRef(function Button(
       ref={ref}
       type={type}
       disabled={disabled || isLoading}
-      className={cn(buttonVariants({ variant, size }), className)}
+      className={cn(buttonVariants({ variant, size, shape }), className)}
       style={isWhiteTextVariant ? { color: "#ffffff", ...style } : style}
       {...props}
     >
