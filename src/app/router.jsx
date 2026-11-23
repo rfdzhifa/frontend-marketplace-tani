@@ -28,6 +28,10 @@ const CheckoutPage = lazy(() => import("../features/checkout/pages/CheckoutPage"
 const CheckoutResultPage = lazy(
   () => import("../features/checkout/pages/CheckoutResultPage"),
 );
+const OrdersPage = lazy(() => import("../features/orders/pages/OrdersPage"));
+const OrderDetailPage = lazy(
+  () => import("../features/orders/pages/OrderDetailPage"),
+);
 
 // Seller Pages
 const SellerOverviewPage = lazy(
@@ -94,6 +98,8 @@ export function AppRouter() {
               path={ROUTES.CHECKOUT_RESULT_DETAIL}
               element={<CheckoutResultPage />}
             />
+            <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
+            <Route path={ROUTES.ORDER_DETAIL} element={<OrderDetailPage />} />
           </Route>
         </Route>
 

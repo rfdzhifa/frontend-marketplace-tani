@@ -7,6 +7,8 @@ export const ROUTES = {
   CHECKOUT: "/checkout",
   CHECKOUT_RESULT: "/checkout/result",
   CHECKOUT_RESULT_DETAIL: "/checkout/result/:orderId",
+  ORDERS: "/orders",
+  ORDER_DETAIL: "/orders/:orderId",
   LOGIN: "/login",
   REGISTER: "/register",
   PROFILE: "/profile",
@@ -52,4 +54,13 @@ export function getSellerProductEditPath(productId) {
  */
 export function getCheckoutResultPath(orderId) {
   return orderId ? `/checkout/result/${orderId}` : "/checkout/result";
+}
+
+/**
+ * Helper to build buyer order detail route
+ * @param {number|string} orderId
+ * @returns {string}
+ */
+export function getOrderDetailPath(orderId) {
+  return `/orders/${orderId}`;
 }

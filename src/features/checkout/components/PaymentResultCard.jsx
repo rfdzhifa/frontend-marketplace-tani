@@ -3,7 +3,7 @@ import { CheckCircle2, Clock, RefreshCw, XCircle } from "lucide-react";
 import { Badge } from "../../../components/atoms/Badge";
 import { Button } from "../../../components/atoms/Button";
 import { ORDER_STATUS, ORDER_STATUS_LABELS } from "../../../constants/orderStatus";
-import { ROUTES } from "../../../constants/routes";
+import { getOrderDetailPath, ROUTES } from "../../../constants/routes";
 import { formatRupiah } from "../../marketplace";
 
 function getStatusBadgeTone(status) {
@@ -139,9 +139,17 @@ export function PaymentResultCard({
                   {order.items?.length || order.itemsCount || 0} jenis produk + ongkir{" "}
                   {formatRupiah(order.ongkir)}
                 </span>
-                <span className="font-semibold text-ink tabular">
-                  {formatRupiah(order.totalHarga)}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold text-ink tabular">
+                    {formatRupiah(order.totalHarga)}
+                  </span>
+                  <Link
+                    to={getOrderDetailPath(order.id)}
+                    className="text-caption font-semibold text-primary-600 hover:text-primary-700 hover:underline"
+                  >
+                    Detail
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
@@ -163,11 +171,18 @@ export function PaymentResultCard({
               </Link>
             </>
           ) : (
-            <Link to={ROUTES.HOME} className="sm:w-auto">
-              <Button variant="primary" className="w-full sm:w-auto">
-                Lanjut Belanja
-              </Button>
-            </Link>
+            <>
+              <Link to={ROUTES.HOME} className="sm:w-auto">
+                <Button variant="secondary" className="w-full sm:w-auto">
+                  Lanjut Belanja
+                </Button>
+              </Link>
+              <Link to={ROUTES.ORDERS} className="sm:w-auto">
+                <Button variant="primary" className="w-full sm:w-auto">
+                  Lihat Pesanan Saya
+                </Button>
+              </Link>
+            </>
           )}
         </div>
       </div>

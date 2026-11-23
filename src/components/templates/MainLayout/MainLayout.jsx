@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router";
 import {
+  ClipboardList,
   LayoutDashboard,
   LogOut,
   Mail,
@@ -98,7 +99,22 @@ export function MainLayout() {
           >
             {isAuthenticated ? (
               <>
-                {user?.role === ROLES.BUYER && <CartNavLink />}
+                {user?.role === ROLES.BUYER && (
+                  <>
+                    <Link
+                      to={ROUTES.ORDERS}
+                      aria-label="Pesanan Saya"
+                      className="inline-flex h-10 items-center gap-1.5 rounded-full border border-border bg-surface px-3 sm:px-3.5 text-body-sm font-medium text-ink transition-colors hover:bg-canvas focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:outline-none"
+                    >
+                      <ClipboardList
+                        className="h-4 w-4 text-primary-600 shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span className="hidden sm:inline">Pesanan Saya</span>
+                    </Link>
+                    <CartNavLink />
+                  </>
+                )}
                 {user?.role === ROLES.SELLER && (
                   <Link
                     to={ROUTES.SELLER_DASHBOARD}
