@@ -1,10 +1,14 @@
+import { Link } from "react-router";
 import { Button } from "../../../components/atoms/Button";
+import { ROUTES } from "../../../constants/routes";
 import { formatRupiah } from "../../marketplace";
 
 export function CartSummary({ cart }) {
+  const hasItems = Boolean(cart?.items?.length);
   const hasUnavailableItems = Boolean(
     cart?.items?.some((item) => !item.isAvailable || item.stock === 0)
   );
+  const isCheckoutDisabled = !hasItems || hasUnavailableItems;
 
   return (
     <div className="border-border bg-surface rounded-md border p-5 sm:p-6 space-y-5">
@@ -40,12 +44,17 @@ export function CartSummary({ cart }) {
       )}
 
       <div>
-        <Button variant="primary" size="lg" disabled className="w-full">
-          Checkout
-        </Button>
-        <p className="text-caption text-ink-muted mt-2 text-center">
-          Checkout akan tersedia setelah modul pembayaran selesai
-        </p>
+        {isCheckoutDisabled ? (
+          <Button variant="primary" size="lg" disabled className="w-full">
+            Lanjut ke Checkout
+          </Button>
+        ) : (
+          <Link to={ROUTES.CHECKOUT} className="block">
+            <Button variant="primary" size="lg" className="w-full">
+              Lanjut ke Checkout
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );

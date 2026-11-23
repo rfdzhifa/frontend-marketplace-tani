@@ -24,6 +24,10 @@ const FarmerProfilePage = lazy(
   () => import("../features/farmer-profile/pages/FarmerProfilePage"),
 );
 const CartPage = lazy(() => import("../features/cart/pages/CartPage"));
+const CheckoutPage = lazy(() => import("../features/checkout/pages/CheckoutPage"));
+const CheckoutResultPage = lazy(
+  () => import("../features/checkout/pages/CheckoutResultPage"),
+);
 
 // Seller Pages
 const SellerOverviewPage = lazy(
@@ -84,6 +88,12 @@ export function AppRouter() {
           {/* Buyer Routes */}
           <Route element={<ProtectedRoute role={ROLES.BUYER} />}>
             <Route path={ROUTES.CART} element={<CartPage />} />
+            <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+            <Route path={ROUTES.CHECKOUT_RESULT} element={<CheckoutResultPage />} />
+            <Route
+              path={ROUTES.CHECKOUT_RESULT_DETAIL}
+              element={<CheckoutResultPage />}
+            />
           </Route>
         </Route>
 
