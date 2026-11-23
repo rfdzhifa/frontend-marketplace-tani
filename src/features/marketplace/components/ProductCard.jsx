@@ -72,7 +72,13 @@ export function ProductCard({ product, onClick }) {
         <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1">
           {isOutOfStock && <Badge tone="danger">Stok habis</Badge>}
           {!isOutOfStock && (product.badge || product.highlight) && (
-            <Badge tone="success">{product.badge || product.highlight}</Badge>
+            <span className="inline-flex h-6 items-center gap-1.5 rounded-full bg-harvest-amber px-2.5 text-caption font-bold text-ink shadow-sm">
+              <span
+                className="h-1.5 w-1.5 rounded-full bg-ink"
+                aria-hidden="true"
+              />
+              {product.badge || product.highlight}
+            </span>
           )}
         </div>
       </div>

@@ -1,18 +1,22 @@
 import { httpClient } from '../../../services/httpClient';
 
 /**
- * Fetch paginated product list with optional search
+ * Fetch paginated product list with optional search and category
  * @param {Object} params
  * @param {string} [params.search] - Search keyword
+ * @param {string} [params.category] - Product category filter
  * @param {number} [params.page=1] - Page number
  * @param {number} [params.limit=12] - Items per page
  * @returns {Promise<{success: boolean, message: string, data: Array, meta: Object}>}
  */
-export async function getProducts({ search = '', page = 1, limit = 12 } = {}) {
+export async function getProducts({ search = '', category = '', page = 1, limit = 12 } = {}) {
   const params = new URLSearchParams();
   
   if (search && search.trim()) {
     params.append('search', search.trim());
+  }
+  if (category && category.trim()) {
+    params.append('category', category.trim());
   }
   params.append('page', String(page));
   params.append('limit', String(limit));

@@ -24,6 +24,15 @@
   --color-info-50: #dbeafe;
   --color-star: #f5b400;
 
+  /* Fresh Harvest vibrant accents (preserve primary-600 #316339 & white/canvas surfaces) */
+  --color-harvest-lime: #65a30d;
+  --color-harvest-lime-soft: #ecfccb;
+  --color-harvest-amber: #f59e0b;
+  --color-harvest-amber-soft: #fef3c7;
+  --color-harvest-amber-ink: #92400e;
+  --color-harvest-coral: #ea580c;
+  --color-harvest-coral-soft: #ffedd5;
+
   /* Order status colors: used only inside StatusBadge */
   --color-status-pending-bg: #fef3c7;
   --color-status-pending-fg: #92600a;
