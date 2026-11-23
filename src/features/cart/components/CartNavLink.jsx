@@ -16,7 +16,7 @@ export function CartNavLink() {
     <Link
       to={ROUTES.CART}
       aria-label={ariaLabel}
-      className="border-border bg-surface text-ink hover:bg-canvas relative inline-flex h-10 items-center justify-center rounded-sm border px-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600"
+      className="border-border bg-surface text-ink hover:bg-canvas relative inline-flex h-10 items-center justify-center rounded-full border px-3.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
     >
       <ShoppingCart className="h-4 w-4 text-primary-600" aria-hidden="true" />
       <span className="hidden sm:inline sm:ml-1.5 text-body-sm font-medium">

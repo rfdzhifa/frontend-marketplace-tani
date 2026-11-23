@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from 'react-router';
-import { ArrowLeft } from 'lucide-react';
+import { Link, useNavigate, useParams } from 'react-router';
+import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useProduct } from '../hooks/useProduct';
 import { useAuth } from '../../auth';
 import { useAddToCart } from '../../cart';
@@ -98,10 +98,29 @@ export default function ProductDetailPage() {
   // Success: Product Loaded
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 sm:py-12">
+      {/* Breadcrumb Bar */}
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-4 flex flex-wrap items-center gap-1.5 text-caption text-ink-muted"
+      >
+        <Link to={ROUTES.HOME} className="hover:text-primary-600 hover:underline">
+          Beranda
+        </Link>
+        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+        <Link to={ROUTES.HOME} className="hover:text-primary-600 hover:underline">
+          Katalog
+        </Link>
+        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+        <span className="truncate font-medium text-ink" aria-current="page">
+          {product.name}
+        </span>
+      </nav>
+
       {/* Back Button */}
       <button
+        type="button"
         onClick={handleBackToCatalog}
-        className="mb-6 inline-flex items-center gap-2 text-body-sm font-medium text-ink-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:rounded-sm"
+        className="mb-6 inline-flex items-center gap-2 text-body-sm font-medium text-ink-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:rounded-sm cursor-pointer"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Kembali ke katalog
@@ -115,7 +134,7 @@ export default function ProductDetailPage() {
             src={product.imageUrl}
             alt={product.name}
             aspectRatio={1}
-            className="rounded-lg"
+            className="rounded-2xl border border-border bg-[#F4F6F4] shadow-card"
           />
         </div>
 
